@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Terms and Conditions Generator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="css/style.css" media="(prefers-color-scheme: light)">
+</head>
+
+<body>
+  <div id="app">
+    <div class="container">
+      <section class="section" id="step-1" v-if="wizardStep==1">
+        <div class="columns">
+          <div class="column box">
+            <div class="control is-expanded">
+              <p class="help form-label">Website Name</p>
+              <input class="input" type="text" required v-model="webName" placeholder="WaiFox" style="border: 1px solid #888; box-shadow: none;">
+            </div>
+            <div class="control is-expanded">
+              <p class="help form-label">Contact E-mail</p>
+              <input class="input" type="email" required v-model="webContact" placeholder="contact@zestgen.com" style="border: 1px solid #888; box-shadow: none;">
+            </div>
+            <div class="control is-expanded">
+              <p class="help form-label">Website URL</p>
+              <input class="input" type="text" required v-model="siteURL" placeholder="https://waifox.blogspot.com" style="border: 1px solid #888; box-shadow: none;">
+            </div>
+            <div class="control">
+              <p class="help form-label">Terms and Conditions Effective Date</p>
+              <!-- Policy Effective Date-->
+              <input class="input is-primary" type="date" required="" v-model="effectiveFromDate" style="border: 1px solid #888; box-shadow: none;">
+            </div>
+            <div class="control is-expanded">
+              <p class="help form-label">Owner Type</p>
+              <!-- Owner-->
+              <div class="select" style="border: 1px solid #888; box-shadow: none; border-radius: 5px;">
+                <select v-model="typeOfDev" style="border: 1px solid #888; box-shadow: none;">
+                  <option value="" disabled="">Select owner type</option>
+                  <option>Individual</option>
+                  <option>Company</option>
+                </select>
+              </div>
+            </div>
+            <div class="control is-expanded" v-if="typeOfDev=='Company'">
+              <p class="help form-label">Company Name</p>
+              <!-- Company Name-->
+              <input class="input is-primary" type="text" v-model="companyName" placeholder="WaiFox" style="border: 1px solid #888; box-shadow: none;">
+            </div>
+            <div class="control is-expanded" v-if="typeOfDev=='Company'">
+              <p class="help form-label">Company Address</p>
+              <!-- Company Address-->
+              <input class="input is-primary" type="text" v-model="companyAdd"
+                placeholder="WaiFox, Maharashtra, India" style="border: 1px solid #888; box-shadow: none;">
+            </div>
+            <div class="control is-expanded" v-if="typeOfDev=='Individual'">
+              <p class="help form-label">Name</p>
+              <!-- Developer Name-->
+              <input class="input is-primary" type="text" v-model="devName" placeholder="Name" style="border: 1px solid #888; box-shadow: none;">
+            </div>
+            <div class="control is-expanded" v-if="typeOfDev=='Individual'">
+              <p class="help form-label">Your Address</p>
+              <!-- Company Address-->
+              <input class="input is-primary" type="text" v-model="companyAdd"
+                placeholder="WaiFox, Maharashtra, India" style="border: 1px solid #888; box-shadow: none;">
+            </div>
+            <a class="button" @click="nextStep()" rel="noopener noreferrer" style="margin-top: 20px; border: none; background: #5665E9; width: 100%; box-shadow: none;">Next</a>
+          </div>
+        </div>
+      </section>
+      <section class="section" id="step-2" v-if="wizardStep==2">
+        <div class="columns">
+          <div class="column">
+            <div class="box final-box"><b>All Done!</b><br>
+              <p>Your terms and conditions is generated &#128071;</p><a class="button is-danger"
+                @click="togglePrivacyModalVisibility" width="100%" rel="noopener noreferrer" style="margin-top: 20px; border: none; background: #888; width: 100%; box-shadow: none;">Terms and Condition</a><br>
+              <a class="button is-primary" width="100%" @click="prevStep()" rel="noopener noreferrer" style="margin-top: 20px; border: none; background: #5665E9; width: 100%; box-shadow: none;">Go back</a><br><br>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="modal" v-bind:class="{ 'is-active': showPrivacyModal }">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title no-select">Terms and Conditions</p>
+            <button class="delete" aria-label="close" @click="togglePrivacyModalVisibility"></button>
+          </header>
+          <section class="modal-card-body modal-box">
+            <div id="privacy_content" v-show="contentRenderType==1"><strong>Terms and Conditions</strong>
+              <p>Welcome to {{webName}}!</p>
+              <p>
+                 {{webName}} is a website operated by {{devOrCompanyName}}, located in {{companyAdd}}. These Terms and Conditions ("Terms") outline the rules and regulations governing your use of our website <a :href="siteURL">{{siteURL}}</a> ("Website").
+              </p>
+              <p><strong>By accessing or using the Website, you agree to these Terms and all applicable laws and regulations. If you disagree with any of these Terms, you are prohibited from using or accessing the Website.</strong></p>
+              <p><strong>Use of Website</strong></p>
+              <p>
+                You may use the Website for your personal, non-commercial use only. You may not modify, copy, distribute, transmit, display, perform, reproduce, publish, license, create derivative works from, transfer, or sell any content, information, software, products, or services obtained from the Website.
+              </p>
+              <p><strong>User Content</strong></p>
+              <p>
+                The Website may allow you to submit comments, reviews, and other content ("User Content").You are solely responsible for your User Content and the accuracy thereof. You warrant that you own all rights to your User Content or have all necessary licenses and permissions to use and upload your User Content. You agree not to submit User Content that is unlawful, harmful, threatening, abusive, harassing, defamatory, obscene, hateful, or racially or ethnically offensive. {{devOrCompanyName}} reserves the right to remove or edit any User Content at its sole discretion.
+              </p>
+              <p><strong>Intellectual Property</strong></p>
+              <p>
+                The content, trademarks, copyrights, service marks, logos, and other intellectual property ("Intellectual Property") used on the Website are the property of {{devOrCompanyName}} or its licensors. You may not use any Intellectual Property without the written permission of {{devOrCompanyName}}.
+              </p>
+              <p><strong>Disclaimer</strong></p>
+              <p>
+                The information on the Website is provided "as is" without any warranties, expressed or implied. {{devOrCompanyName}} disclaims all warranties, including but not limited to, implied warranties of merchantability, fitness for a particular purpose, and non-infringement. {{devOrCompanyName}} does not warrant that the Website will be uninterrupted or error-free, that defects will be corrected, or that the Website or the server that makes it available are free of viruses or other harmful components.
+              </p>
+              <p><strong>Limitation of Liability</strong></p>
+              <p>
+                {{devOrCompanyName}} shall not be liable for any damages arising from your use of the Website, including but not limited to, direct, indirect, incidental, punitive, and consequential damages.
+              </p>
+              <p><strong>Termination</strong></p>
+              <p>
+                {{devOrCompanyName}} may terminate your access to the Website for any reason, at any time, without notice.
+              </p>
+              <p><strong>Governing Law</strong></p>
+              <p>
+                These Terms shall be governed by and construed in accordance with the laws of India.
+              </p>
+              <p><strong>Entire Agreement</strong></p>
+              <p>
+                These Terms constitute the entire agreement between you and {{devOrCompanyName}} regarding your use of the Website.
+              </p>
+              <p><strong>Contact Information</strong></p>
+              <p>
+                For any questions or concerns regarding the terms and condition, please send {{meOrUs}} an email at <a :href="'mailto:' + webContact">{{webContact}}</a>.
+              </p>
+            </div>
+            <textarea class="textarea" id="privacy_txtarea" onclick="this.focus();this.select()" readonly="readonly"
+              v-show="contentRenderType==2"></textarea>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success" @click="getHtml('privacy_content','privacy_txtarea')" style="border: none; background: #888;">HTML</button>
+            <button class="button is-success"
+              @click="getMarkdown('privacy_content', 'privacy_txtarea')" style="border: none; background: #888;">Markdown</button>
+            <button class="button is-success" v-if="contentRenderType!=1" @click="preview()" style="border: none; background: #5665E9;">Preview</button>
+            <button class="button" id="copybtn" data-clipboard-target="#privacy_content" style="border: none; background: #5665E9;">Copy</button>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/to-markdown/3.1.1/to-markdown.min.js"
+    integrity="sha256-2PIa0cHy6lNEesnk4/qokv291Whx/uhAy2V6WL2zmfo=" crossorigin="anonymous"></script>
+  <script src="js/thirdpartyservices.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/main.js"></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
+
+  <script>
+    var btn = document.getElementById('copybtn');
+    var clipboard = new ClipboardJS(btn);
+
+    clipboard.on('success', function (e) {
+      console.info('Action:', e.action);
+      console.info('Text:', e.text);
+      console.info('Trigger:', e.trigger);
+    });
+
+    clipboard.on('error', function (e) {
+      console.info('Action:', e.action);
+      console.info('Text:', e.text);
+      console.info('Trigger:', e.trigger);
+    });
+  </script>
+
+
+
+  <!-- Service Worker-->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
+
+</body>
+
+</html>
